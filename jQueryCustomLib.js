@@ -1,5 +1,12 @@
 function addClass(htmlTag, className) {
     if (className instanceof Function) {
+        let classNames = className();
+
+        if (classNames instanceof Array) {
+            classNames.forEach((elem) => htmlTag.classList.add(elem));
+            return;
+        }
+
         className().split(' ').forEach((elem) => htmlTag.classList.add(elem));
 
         return;
@@ -15,15 +22,26 @@ function addClass(htmlTag, className) {
 }
 
 function removeClass(htmlTag, className) {
-    htmlTag.classList.remove(className)
-}
+    if (className instanceof Function) {
+        let classNames = className();
 
-function removeClass(htmlTag, ...classNames) {
-    htmlTag.classList.remove(classNames)
-}
+        if (classNames instanceof Array) {
+            classNames.forEach((elem) => htmlTag.classList.remove(elem));
+            return;
+        }
 
-function removeClass(htmlTag, classNameCreator) {
-    htmlTag.classList.remove(classNameCreator())
+        className().split(' ').forEach((elem) => htmlTag.classList.remove(elem));
+
+        return;
+    }
+
+    if (className instanceof Array) {
+        className.forEach((elem) => htmlTag.classList.remove(elem));
+
+        return;
+    }
+
+    className.split(' ').forEach((elem) => htmlTag.classList.remove(elem))
 }
 
 function append() {
