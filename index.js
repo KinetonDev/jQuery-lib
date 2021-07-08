@@ -1,6 +1,7 @@
 const jQueryLib = {
     addClass: addClass,
-    removeClass: removeClass
+    removeClass: removeClass,
+    append: append,
 }
 
 const div = document.querySelector("div")
@@ -10,3 +11,5 @@ jQueryLib.addClass(div, () => {
 })
 
 jQueryLib.removeClass(div, "1 2")
+
+jQueryLib.append(div, [document.createElement('a'), document.createElement('div')], "<p>Paragraph</p>");
