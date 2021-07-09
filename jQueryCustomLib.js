@@ -8,13 +8,11 @@ function addClass(htmlTag, className) {
         }
 
         className().split(' ').forEach((elem) => htmlTag.classList.add(elem));
-
         return;
     }
 
     if (className instanceof Array) {
         className.forEach((elem) => htmlTag.classList.add(elem));
-
         return;
     }
 
@@ -31,13 +29,11 @@ function removeClass(htmlTag, className) {
         }
 
         className().split(' ').forEach((elem) => htmlTag.classList.remove(elem));
-
         return;
     }
 
     if (className instanceof Array) {
         className.forEach((elem) => htmlTag.classList.remove(elem));
-
         return;
     }
 
@@ -62,12 +58,22 @@ function append(htmlTag, ...content) {
     })
 }
 
-function remove() {
-
+function remove(htmlTag) {
+    htmlTag.remove();
 }
 
-function text() {
+function text(htmlTag) {
+    let innerText = htmlTag.innerText;
 
+    while (innerText.includes('\n')) {
+        innerText = innerText.replace('\n', ' ');
+    }
+
+    while (innerText.includes('  ')) {
+        innerText = innerText.replace('  ', ' ');
+    }
+
+    return innerText;
 }
 
 function attr() {
