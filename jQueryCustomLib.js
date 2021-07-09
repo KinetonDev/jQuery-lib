@@ -62,22 +62,40 @@ function remove(htmlTag) {
     htmlTag.remove();
 }
 
-function text(htmlTag) {
-    let innerText = htmlTag.innerText;
+function text(htmlTag, textContent) {
+    if (textContent === undefined) {
+        let innerText = htmlTag.innerText;
 
-    while (innerText.includes('\n')) {
-        innerText = innerText.replace('\n', ' ');
+        while (innerText.includes('\n')) {
+            innerText = innerText.replace('\n', ' ');
+        }
+
+        while (innerText.includes('  ')) {
+            innerText = innerText.replace('  ', ' ');
+        }
+
+        return innerText;
     }
 
-    while (innerText.includes('  ')) {
-        innerText = innerText.replace('  ', ' ');
-    }
-
-    return innerText;
+    let doc = new DOMParser().parseFromString(textContent, 'text/html');
+    htmlTag.innerText = "";
+    doc.body.childNodes.forEach(elem => htmlTag.append(elem));
 }
 
-function attr() {
+function attr(htmlTag, attribute, value) {
+    if (attribute instanceof Object) {
+        for (const attributeName in attribute) {
+            if (htmlTag.hasAttribute(attributeName)) {
+                htmlTag.setAttribute(attributeName, attribute[attributeName]);
+            }
+        }
+    }
 
+    if (value === undefined)
+        return htmlTag.getAttribute(attribute);
+
+
+    htmlTag.setAttribute(attribute, value);
 }
 
 function children() {
