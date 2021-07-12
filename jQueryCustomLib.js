@@ -98,16 +98,68 @@ function attr(htmlTag, attribute, value) {
     htmlTag.setAttribute(attribute, value);
 }
 
-function children() {
+function children(htmlTag, selector) {
+    if (selector === undefined)
+        return [].filter.call(htmlTag.childNodes, elem => isTextNode(elem));
 
+    return [].filter.call(htmlTag.querySelectorAll(selector), elem => isTextNode(elem));
+
+    function isTextNode(tag) {
+        return tag.nodeType !== Node.TEXT_NODE;
+    }
 }
 
-function empty() {
-
+function empty(htmlTag) {
+    htmlTag.innerText = "";
 }
 
-function css() {
+function css(htmlTag, propName, value) {
+    let computedStyles = getComputedStyle(htmlTag);
 
+    if (propName instanceof Array) {
+        let valuesOfProps = [];
+
+        propName.forEach(elem => {
+            valuesOfProps.push(computedStyles[elem]);
+        });
+
+        return valuesOfProps;
+    }
+
+    if (propName instanceof Object) {
+        for (const propNameKey in propName) {
+            if (htmlTag.style[propNameKey] !== undefined) {
+                htmlTag.style[propNameKey] = propName[propNameKey];
+            }
+        }
+
+        return;
+    }
+
+    if (value !== undefined) {
+        if (htmlTag.style[propName] !== undefined) {
+            if (isRelative(value)) {
+                let rightNode = value.replace("=", "");
+                let numberValue = parseInt(htmlTag.style[propName]);
+                let cssUnit = htmlTag.style[propName].replace(new RegExp("\\d+"), "");
+                let newValue = eval(numberValue + rightNode);
+                htmlTag.style[propName] = newValue + cssUnit;
+
+                return;
+            }
+
+            htmlTag.style[propName] = value;
+        }
+
+        return;
+
+        function isRelative(value) {
+            let regExp = new RegExp("^[+-]=\\d+$");
+            return regExp.test(value);
+        }
+    }
+
+    return computedStyles[propName];
 }
 
 function click() {

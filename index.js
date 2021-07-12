@@ -5,7 +5,9 @@ const jQueryLib = {
     remove: remove,
     text: text,
     attr: attr,
-
+    children: children,
+    empty: empty,
+    css: css
 }
 
 const div = document.querySelector("div")
@@ -31,3 +33,20 @@ jQueryLib.attr(div, {
     attr1: "smth"
 })
 
+console.log(jQueryLib.children(div))
+
+console.log(jQueryLib.children(div, 'div'))
+
+console.log(jQueryLib.css(div, ['height', 'width', 'backgroundColor']))
+console.log(jQueryLib.css(div, 'color'))
+jQueryLib.css(div, {
+    "background-color" : "red",
+    "something" : "bad",
+    "color" : "blue"
+})
+
+jQueryLib.css(div, "height", "20px")
+jQueryLib.css(div, "height", "-=15")
+
+
+jQueryLib.empty(div)
