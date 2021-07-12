@@ -7,7 +7,8 @@ const jQueryLib = {
     attr: attr,
     children: children,
     empty: empty,
-    css: css
+    css: css,
+    click: click
 }
 
 const div = document.querySelector("div")
@@ -48,5 +49,8 @@ jQueryLib.css(div, {
 jQueryLib.css(div, "height", "20px")
 jQueryLib.css(div, "height", "-=15")
 
+jQueryLib.click(div, (e) => {
+    alert("i'm clicked");
+})
 
 jQueryLib.empty(div)

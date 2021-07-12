@@ -162,6 +162,6 @@ function css(htmlTag, propName, value) {
     return computedStyles[propName];
 }
 
-function click() {
-
+function click(htmlTag, handler) {
+    htmlTag.addEventListener("click", handler);
 }
